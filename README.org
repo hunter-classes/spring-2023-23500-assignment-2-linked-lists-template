@@ -1,133 +1,113 @@
-* Project 1 - Recursive Search
+* Project 2 Link lists
 
-* Due TBD
+* Part 1 Due: Thursday March 2, before class
+* Part 2 Due: Monday March 13, 7:00am
+
+NOTE: There will be another ongoing assignment starting before the
+part 2 due date so don't leave this one until the last minute. 
 
 
+* Part 1 - Due 3/2 before class
 
-* Folder and files
+** *Important Note*
+This part will not be graded for correctness, only for the attempt so
+it while it is important that you submit your code before the due
+date, this part doesn't need to fully work by the part 1 due date.
 
-- solve one of the three problems below using the basic guidelines in
-  the main assignment Readme.org file. 
+** These videos review some of what we've already covered in class
+- https://youtu.be/mSQjWDAQx-o
+- https://youtu.be/Nj-hc0LvYjU
+- https://youtu.be/XRGqxNdNLAE
 
-- For development, I would recommend animating your program using the
-  ansi escape code technique we used for the maze solver. This will,
-  however slow down your program. If your final program takes more
-  than 10 seconds to run on your laptop, turn off this feature for
-  your submission so that when run your program just prints out the
-  final result. 
+** Add the code for a basic linked list it should include:
+- Node.h and Node.cpp as specified in class and covered in the third video
+- List.h and List.cpp as specified in class and covered in the third video
+- A main.cpp that can create a sample list
+- A Makefile that will build an executable named *main*.
 
-- You can name your c++ file(s) anything you want but you have to
-  have a Makefile that will compile the program. The executable should
-  be named main.
 
-  That is, if you're writing the knights tour, your Makefile might be:
+Try to build a small list and experiment with the data structure
 
-  #+begin_src
-main: knights.o
-    g++ -o main knights.o
+** Try to add the three routines specified in the video:
+1. contains(std::string item) which returns true if item is in the list and
+   false otherwise.
+2. remove(int loc) which will remove an item at the specified locaton
+3. A destructor
 
-knights.o: knights.cpp
-    g++ -c knights.cpp
+We will go over these in class on March 2nd
 
-  #+end_src
+** IMPORTANT NOTE
 
-  *DO NOT CUT AND PASTE THE ABOVE MAKEFILE* - it has spaces not tabs
-  and that will mess things up. You can retype it or modify any of
-  your existing Makefiles. 
+For this part of the assignment it is important go upload your best
+attempt before class. This part will *not* be graded for correctness
+but rather for attempt. It doesn't have to work (for now) but the
+attempt must be there.
 
-  This project *does not* use doctest for testing.
 
-  
-* Complete one of the following three
-** Knights tour
+* Part 2 
+** Description / specification
+You can use any of the linked list code that you either wrote for part
+1 of we wrote in class as starter code.
 
-In Chess a knight moves with a 2,1 or 1,2 combination as indicated
-here: 
+Create a new class called OList (use the file names OList.cpp and
+OList.h) . This should be based on your/our existing list code. The
+difference is that this list should store items in increasing
+order. You can leave the data type as std::string or change it to int -
+whichever you prefer.
 
-#+begin_example
-.8.1.
-7...2
-..N..
-6...3
-.5.4.
-#+end_example
+You should implement the following routines:
 
-A knight in the center location marked with the *N* can move to any of
-the eight locations numbered 1 through 8.
+1. A constructor
+2. A destructor
+3. void insert(value) - insert a new node with *value* into the list
+   in its proper location.
+4. std::string toString() - return a string representation of the full
+   list.
+5. bool contains(value) - returns true if value is in the list, false
+   otherwise.
+6. get(loc) - returns the value at loc
+7. void remove(loc) - returns the value at loc
+8. void reverse() - This should "reverse" the list - that is reverse
+   the pointers.
 
-Use a 2D array to represent the board and write a program that, given
-a starting location, will determine a sequence of moves that the
-knight can take to visit every square on the board without visiting
-any square more than once. 
+   If the list starts like this:
 
-This is analogous to the maze problem and solution.
+   #+begin_example
+   head --> 5 --> 6 --> 10 --> 18 --> nullptr
+   #+end_example
 
-Notes: 
+   after reverse it should look like this:
 
-- Your program should not require any user input and should just run
-  and show that it works. 
-- There might not be a solution for any size board from any starting
-  location. 
-- Your solution should work for any size board with any starting
-  location but develop for a 5x5 board as it will run more quickly.
-- Your submitted solution should show that it works for a 5x5
-  board. Specify a starting location that works.
-- Your solution should print out a board with numbers representing the
-  move sequence.
-  
-  For example, a valid solution might show: 
+   #+begin_example
+   head --> 18 --> 10 --> 6 --> 5 --> nullptr
+   #+end_example
 
-#+begin_example
- 1:14:19: 8:25:
- 6: 9: 2:13:18:
-15:20: 7:24: 3:
-10: 5:22:17:12:
-21:16:11: 4:23:
-#+end_example
+   *THIS WILL RESULT IN YOUR OTHER ROUTINES NO LONGER WORKING SINCE
+   THE LIST WON'T BE IN ORDER ANYMORE* - this is okay - just test this
+   at the end or run it, test it, then run it again.
 
-** N-queens
+   You should do this by rearranging the pointers, not be copying
+   values or deleting and re-entering nodes. This is a typical
+   interview question so it's good to work on doing it the way the
+   interviewers will want to see the solution. 
 
-A queen can move on a chessboard any number of squares either
-horizontally, vertically, or diagonally. If a queen can move to a
-square it can attack the piece on that square.
+** Implementation
 
-#+begin_example
-x..x..x.
-.x.x.x..
-..xxx...
-xxxQxxxx
-..xxx...
-.x.x.x..
-x..x..x.
-...x...x
-#+end_example
+This project should be tested using Doctest. Make sure your Makefile
+has the following targets:
 
-In the above example, the queen at the center can move/attack any of
-the locations marked with an *x*. 
+1. main -- builds an executable named main to "run" the program.
+2. tests -- build the test executable named "tests" - will perform the
+   doctests.
+3. clean - removes the object files.
+   
+You should also make sensible decisions with respect to error / bounds
+conditions and the like. Base you decisions on what we wrote and
+discussed in class as well as your own opinions.
 
-Write a program that will find an arrangement of N queens on an NxN
-board such that no queen can attack another queen.
+As with your labs last semesters, there should be no keyboard input.
 
-For example, for a 4x4 board, this arrangement would solve the
-problem: 
+Make sure to use Zulip to discuss any of this and to reach out if you
+need any assistance. 
 
-#+begin_example
-..Q.
-Q...
-...Q
-.Q..
-#+end_example
-
-Use a 2D array to represent your board. When run, your program should
-print out a board with a legal configuration of queens. 
-
-** 15 puzzle 
-
-A 15 puzzle is a comprised of a 4x4 grid with 15 tiles and one
-space. The puzzle is solved by sliding tiles within this grid to
-rearrange them to put the tiles in order. See
-https://15puzzle.netlify.app/ for an example.
-
-Your program should create a 15x15 puzzle and run your solver to
-determine the moves to solve the puzzle.
 
